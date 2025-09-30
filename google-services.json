@@ -1,0 +1,141 @@
+{
+  "project_info": {
+    "project_number": "852780780344",
+    "firebase_url": "https://aidiet-e094b-default-rtdb.firebaseio.com",
+    "project_id": "aidiet-e094b",
+    "storage_bucket": "aidiet-e094b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852780780344:android:4f12043e1b93a8415c0fcd",
+        "android_client_info": {
+          "package_name": "com.aiassistant.aidiet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852780780344-4uocqo6chtml6hl8ai82qombpt5i80l7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aiassistant.aidiet",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "852780780344-7kgju4epch2e7sh5ernso519htc675ss.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aiassistant.aidiet",
+            "certificate_hash": "3c9afd83871129021c1b06b0a24fa24b097fadef"
+          }
+        },
+        {
+          "client_id": "852780780344-9admi4qsictmhbv4hkplgt25an47v1p9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aiassistant.aidiet",
+            "certificate_hash": "24c00d5a048540a8e3cfdc68c1854ca8b30bb79a"
+          }
+        },
+        {
+          "client_id": "852780780344-m3u8pea3kfbo6i82ti2qk7ufhocdatih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aiassistant.aidiet",
+            "certificate_hash": "18a6fb0a07ffa4178ff34887a1046c1e5d2a08e0"
+          }
+        },
+        {
+          "client_id": "852780780344-ms3bhl6n776rondrfs095lnt09kp6mid.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aiassistant.aidiet",
+            "certificate_hash": "c6edd5ff489920136065789cd2721f430fe894bf"
+          }
+        },
+        {
+          "client_id": "852780780344-pk08n6d72eunf51u2nrkeidu73mcllro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc2vO466FI8CLuZXw8NTWjjiCKlMwjHJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852780780344-pk08n6d72eunf51u2nrkeidu73mcllro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "852780780344-4fod43p5ed3flve4dc0abu983j1cg3ip.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aiassistant.aidietpro",
+                "app_store_id": "6470393914"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852780780344:android:d1b79b7c4ae70fac5c0fcd",
+        "android_client_info": {
+          "package_name": "com.aiassistant.aidietpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852780780344-52jv59nm2e19kh6qjhp40katj4uule34.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aiassistant.aidietpro",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "852780780344-l05ihqqvkodhhkhmu50ilpq403njo453.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aiassistant.aidietpro",
+            "certificate_hash": "18a6fb0a07ffa4178ff34887a1046c1e5d2a08e0"
+          }
+        },
+        {
+          "client_id": "852780780344-pk08n6d72eunf51u2nrkeidu73mcllro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc2vO466FI8CLuZXw8NTWjjiCKlMwjHJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852780780344-pk08n6d72eunf51u2nrkeidu73mcllro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "852780780344-4fod43p5ed3flve4dc0abu983j1cg3ip.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aiassistant.aidietpro",
+                "app_store_id": "6470393914"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
