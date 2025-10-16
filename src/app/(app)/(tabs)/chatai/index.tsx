@@ -1,28 +1,74 @@
+import FitnessPlanIcon from '@assets/icons/chat-fitnessplan.svg';
+import MacroSetupIcon from '@assets/icons/chat-macrossetup.svg';
+import NutritionIcon from '@assets/icons/chat-nutrition.svg';
+import RecipesIcon from '@assets/icons/chat-recipes.svg';
+import Body from '@components/custom-ui/Body';
 import Button from '@components/custom-ui/Button';
+import ButtonGroup from '@components/custom-ui/ButtonGroup';
 import DrawerButton from '@components/custom-ui/DrawerButton';
 import Header from '@components/custom-ui/Header';
+import Heading from '@components/custom-ui/Heading';
+import Screen from '@components/custom-ui/Screen';
+import VStack from '@components/custom-ui/VStack';
 import { Colors } from '@constants/Colors';
-import { Image } from 'expo-image';
+import { textStyles } from '@styles/textStyles';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-const ChatAiScreen = () => (
-    <View style={styles.container}>
-        <Header style={styles.header}>
-            <DrawerButton />
-            <View style={styles.flex}>
-                <Image
-                    style={styles.image}
-                    source={require('@assets/images/calories-logo.png')}
-                    contentFit="contain"
-                    transition={1000}
+const ChatAiScreen = () => {
+    const router = useRouter();
+    return (
+        <Screen>
+            <Header>
+                <DrawerButton />
+            </Header>
+            <VStack style={{ marginBottom: 100 }}>
+                <Heading>{'Chat AI'}</Heading>
+                <Body>
+                    {
+                        'Discover the world of culinary arts, nutritional knowledge, and fitness expertise with our AI, expertly trained and powered by ChatGPT technology.'
+                    }
+                </Body>
+            </VStack>
+            <Heading style={textStyles.subtitle}>{'Select from one of the following options to begin'}</Heading>
+            <ButtonGroup style={{ marginTop: 10 }}>
+                <Button
+                    style={styles.button}
+                    title="Recipes for Meals and Snacks"
+                    onPress={() => router.navigate('/chatai/recipes')}
+                    height={166}
+                    textStyle={[textStyles.text, { color: Colors.light.black }]}
+                    iconLeft={({ color }) => <RecipesIcon height={36} width={36} color={color} />}
                 />
-            </View>
-        </Header>
-        <View style={styles.panel}></View>
-        <Button title="Pressione-me" onPress={() => alert('Botão pressionado!')} />
-    </View>
-);
+                <Button
+                    style={styles.button}
+                    title="Fitness Plans and Workout Routines"
+                    onPress={() => router.navigate('/chatai/fitness')}
+                    height={166}
+                    textStyle={[textStyles.text, { color: Colors.light.black }]}
+                    iconLeft={({ color }) => <FitnessPlanIcon height={36} width={36} color={color} />}
+                />
+                <Button
+                    style={styles.button}
+                    title="General Information about Nutrition"
+                    onPress={() => router.navigate('/chatai/nutrition')}
+                    height={166}
+                    textStyle={[textStyles.text, { color: Colors.light.black }]}
+                    iconLeft={({ color }) => <NutritionIcon height={36} width={36} color={color} />}
+                />
+                <Button
+                    style={styles.button}
+                    title="Macros Setup Help"
+                    onPress={() => router.navigate('/chatai/macros')}
+                    height={166}
+                    textStyle={[textStyles.text, { color: Colors.light.black }]}
+                    iconLeft={({ color }) => <MacroSetupIcon height={36} width={36} color={color} />}
+                />
+            </ButtonGroup>
+        </Screen>
+    );
+};
 
 const styles = StyleSheet.create({
     flex: {
@@ -31,18 +77,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    header: {
-        paddingEnd: 44,
-        height: 54,
-    },
-    image: {
-        width: 120,
-        height: 40,
-        alignSelf: 'center',
-    },
-    panel: {
-        backgroundColor: Colors.light.background,
-        height: 189,
+    button: {
+        height: 66,
+        backgroundColor: Colors.light['primary-400'],
+        justifyContent: 'flex-start',
+        paddingHorizontal: 30,
     },
 });
 

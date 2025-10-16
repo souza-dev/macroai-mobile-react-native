@@ -6,7 +6,7 @@ import { Colors } from '@constants/Colors';
 import { textStyles } from '@styles/textStyles';
 
 interface ButtonProps extends ComponentProps<typeof Pressable> {
-    title: string;
+    title?: string;
     loading?: boolean;
     iconLeft?: React.ReactNode | ((props: { color: string; size?: number }) => React.ReactNode);
     iconRight?: React.ReactNode | ((props: { color: string; size?: number }) => React.ReactNode);
@@ -29,20 +29,21 @@ function Button({
     textStyle,
     ...props
 }: ButtonProps) {
+    const hasText = Boolean(title);
+    const iconOnly = !hasText && (iconLeft || iconRight);
     const containerStyle: StyleProp<ViewStyle> = [
         {
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'row',
-            gap: 10,
-            height: height ?? 55,
-            maxHeight: 55,
+            gap: iconOnly ? 0 : 10,
+            height: height ?? 50,
             borderTopLeftRadius: radius ?? 10,
             borderTopRightRadius: radius ?? 10,
             borderBottomLeftRadius: radius ?? 10,
             borderBottomRightRadius: radius ?? 10,
             backgroundColor: color ?? Colors.light['primary-500'],
-            paddingHorizontal: 10,
+            paddingHorizontal: iconOnly ? 0 : 10,
             flexWrap: 'nowrap', // mantém texto e ícones na mesma linha, mas o texto pode quebrar
         },
         style,
@@ -61,11 +62,19 @@ function Button({
                 <Spinner color={iconColor} />
             ) : (
                 <>
-                    {renderIcon(iconLeft)}
-                    <ButtonText style={textStyle} numberOfLines={2}>
-                        {title}
-                    </ButtonText>
-                    {renderIcon(iconRight)}
+                    {iconOnly ? (
+                        renderIcon(iconLeft || iconRight) // centraliza um único ícone
+                    ) : (
+                        <>
+                            {renderIcon(iconLeft)}
+                            {hasText && (
+                                <ButtonText style={textStyle} numberOfLines={2}>
+                                    {title}
+                                </ButtonText>
+                            )}
+                            {renderIcon(iconRight)}
+                        </>
+                    )}
                 </>
             )}
         </Pressable>

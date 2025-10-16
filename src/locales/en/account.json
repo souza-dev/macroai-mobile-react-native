@@ -1,0 +1,14 @@
+{
+    "title": "Account",
+    "body": "Our AI will help you set up your daily macro requirements.",
+    "metric": "Metric",
+    "imperial": "Imperial",
+    "choose_diet": "Choose your Diet",
+    "choose_goal": "Your goal is to",
+    "choose_age": "Your Age",
+    "choose_height": "Your Height",
+    "choose_weight": "Your Weight",
+    "choose_gender": "Your Gender",
+    "choose_workout": "Daily workout hours",
+    "button": "Let’s begin!"
+}

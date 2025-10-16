@@ -7,16 +7,29 @@ import Header from '@components/custom-ui/Header';
 import Heading from '@components/custom-ui/Heading';
 import HStack from '@components/custom-ui/HStack';
 import Screen from '@components/custom-ui/Screen';
-import Select, { mockdata } from '@components/custom-ui/Select';
+import Select from '@components/custom-ui/Select';
 import VStack from '@components/custom-ui/VStack';
 import { Colors } from '@constants/Colors';
+import {
+    ageData,
+    dailyWorkoutData,
+    dietData,
+    genderData,
+    goalData,
+    heightImperialData,
+    heightMetricData,
+    weightImperialData,
+    weightMetricData,
+} from '@constants/dropdowndata';
 import { textStyles } from '@styles/textStyles';
 import { useRouter } from 'expo-router';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default function AccountScreen() {
+    const { t } = useTranslation(['account', 'dropdown']);
     const router = useRouter();
     const [selected, setSelected] = React.useState<'metric' | 'imperial'>('metric');
 
@@ -25,13 +38,13 @@ export default function AccountScreen() {
             <Header>
                 <DrawerButton />
             </Header>
-            <ScrollView style={styles.flex}>
+            <ScrollView style={styles.flex} showsVerticalScrollIndicator={false}>
                 <VStack spacing={20}>
-                    <Heading>Account</Heading>
-                    <Body>Our AI will help you set up your daily macro requirements.</Body>
+                    <Heading>{t('title')}</Heading>
+                    <Body>{t('body')}</Body>
                     <ButtonGroup direction="row" isAttached style={{ marginBottom: 20 }}>
                         <Button
-                            title="Metric"
+                            title={t('metric')}
                             color={selected === 'metric' ? Colors.light['primary-500'] : Colors.light.background}
                             textStyle={{ color: selected === 'metric' ? Colors.light.white : Colors.light.gray }}
                             onPress={() => setSelected('metric')}
@@ -46,7 +59,7 @@ export default function AccountScreen() {
                             style={{ paddingLeft: 16 }}
                         />
                         <Button
-                            title="Imperial"
+                            title={t('imperial')}
                             color={selected === 'imperial' ? Colors.light['primary-500'] : Colors.light.background}
                             textStyle={{ color: selected === 'imperial' ? Colors.light.white : Colors.light.gray }}
                             onPress={() => setSelected('imperial')}
@@ -63,49 +76,61 @@ export default function AccountScreen() {
                     </ButtonGroup>
                     <HStack>
                         <View style={styles.flex}>
-                            <Heading style={textStyles.subtitle}>Choose your Diet</Heading>
+                            <Heading style={textStyles.subtitle}>{t('choose_diet')}</Heading>
                         </View>
-                        <Select style={{ width: '45%' }} data={mockdata} onChange={(item) => console.log(item)} />
+                        <Select style={{ width: '45%' }} data={dietData} onChange={(item) => console.log(item)} />
                     </HStack>
                     <HStack>
                         <View style={styles.flex}>
-                            <Heading style={textStyles.subtitle}>Your goal is to</Heading>
+                            <Heading style={textStyles.subtitle}>{t('choose_goal')}</Heading>
                         </View>
-                        <Select style={{ width: '45%' }} data={mockdata} />
+                        <Select style={{ width: '45%' }} data={goalData} onChange={(item) => console.log(item)} />
                     </HStack>
                     <HStack>
                         <View style={styles.flex}>
-                            <Heading style={textStyles.subtitle}>Your Age</Heading>
+                            <Heading style={textStyles.subtitle}>{t('choose_age')}</Heading>
                         </View>
-                        <Select style={{ width: '45%' }} data={mockdata} />
+                        <Select style={{ width: '45%' }} data={ageData} onChange={(item) => console.log(item)} />
                     </HStack>
                     <HStack>
                         <View style={styles.flex}>
-                            <Heading style={textStyles.subtitle}>Your Height</Heading>
+                            <Heading style={textStyles.subtitle}>{t('choose_height')}</Heading>
                         </View>
-                        <Select style={{ width: '45%' }} data={mockdata} />
+                        <Select
+                            style={{ width: '45%' }}
+                            data={selected === 'metric' ? heightMetricData : heightImperialData}
+                            onChange={(item) => console.log(item)}
+                        />
                     </HStack>
                     <HStack>
                         <View style={styles.flex}>
-                            <Heading style={textStyles.subtitle}>Your Weight</Heading>
+                            <Heading style={textStyles.subtitle}>{t('choose_weight')}</Heading>
                         </View>
-                        <Select style={{ width: '45%' }} data={mockdata} />
+                        <Select
+                            style={{ width: '45%' }}
+                            data={selected === 'metric' ? weightMetricData : weightImperialData}
+                            onChange={(item) => console.log(item)}
+                        />
                     </HStack>
                     <HStack>
                         <View style={styles.flex}>
-                            <Heading style={textStyles.subtitle}>Your Gender</Heading>
+                            <Heading style={textStyles.subtitle}>{t('choose_gender')}</Heading>
                         </View>
-                        <Select style={{ width: '45%' }} data={mockdata} />
+                        <Select style={{ width: '45%' }} data={genderData} onChange={(item) => console.log(item)} />
                     </HStack>
                     <HStack>
                         <View style={styles.flex}>
-                            <Heading style={textStyles.subtitle}>Daily workout hours</Heading>
+                            <Heading style={textStyles.subtitle}>{t('choose_workout')}</Heading>
                         </View>
-                        <Select style={{ width: '45%' }} data={mockdata} onChange={(item) => console.log(item)} />
+                        <Select
+                            style={{ width: '45%' }}
+                            data={dailyWorkoutData}
+                            onChange={(item) => console.log(item)}
+                        />
                     </HStack>
                     <Button
-                        onPress={() => router.navigate('/(tabs)/account/macro')}
-                        title="Let’s begin!"
+                        onPress={() => router.navigate('/account/macro')}
+                        title={t('button')}
                         color={Colors.light['secondary-500']}
                         textStyle={{ color: Colors.light.black }}
                     />

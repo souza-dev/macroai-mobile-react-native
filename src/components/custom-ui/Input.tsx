@@ -1,11 +1,14 @@
 import { Colors } from '@constants/Colors';
 import React from 'react';
-import { StyleProp, StyleSheet, TextInput, TextInputProps, TouchableOpacity, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, TextInput, TextInputProps, TouchableOpacity, View, ViewStyle } from 'react-native';
 import HStack from './HStack';
 
-interface InputProps extends TextInputProps {
+export interface InputProps extends TextInputProps {
     iconLeft?: React.ReactNode | ((props: { color: string; size?: number }) => React.ReactNode);
     iconRight?: React.ReactNode | ((props: { color: string; size?: number }) => React.ReactNode);
+    /** Novo: aceita múltiplos botões ou qualquer elemento customizado */
+    leftElement?: React.ReactNode;
+    rightElement?: React.ReactNode;
     onPressIconLeft?: () => void;
     onPressIconRight?: () => void;
     containerStyle?: StyleProp<ViewStyle>;
@@ -14,9 +17,11 @@ interface InputProps extends TextInputProps {
     color?: string;
 }
 
-export default function Input({
+function Input({
     iconLeft,
     iconRight,
+    leftElement,
+    rightElement,
     onPressIconLeft,
     onPressIconRight,
     containerStyle,
@@ -53,34 +58,46 @@ export default function Input({
                     backgroundColor: color ?? Colors.light.white,
                     paddingHorizontal: 10,
                     alignItems: 'center',
-                    height: height ?? 55,
+                    height: height ?? 50,
                 },
                 containerStyle,
             ]}
         >
-            {renderIcon(iconLeft, onPressIconLeft)}
+            {leftElement ? (
+                <View style={styles.elementContainer}>{leftElement}</View>
+            ) : (
+                renderIcon(iconLeft, onPressIconLeft)
+            )}
+
             <TextInput
-                style={[styles.input, { color: inputColor }, style]}
+                style={[styles.input, { color: inputColor, height: '100%' }, style]}
                 placeholderTextColor={placeholderColor}
                 autoCapitalize="none"
                 {...inputProps}
             />
-            {renderIcon(iconRight, onPressIconRight)}
+
+            {rightElement ? (
+                <View style={styles.elementContainer}>{rightElement}</View>
+            ) : (
+                renderIcon(iconRight, onPressIconRight)
+            )}
         </HStack>
     );
 }
 
+export default Input;
+
 const styles = StyleSheet.create({
     input: {
         flex: 1,
-        fontSize: 26,
-        paddingVertical: 19,
-        paddingHorizontal: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
+        paddingHorizontal: 8,
     },
     iconContainer: {
         paddingHorizontal: 6,
-        paddingVertical: 4,
+    },
+    elementContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
     },
 });

@@ -1,6 +1,6 @@
 import HStack from '@components/custom-ui/HStack';
-import { StyleSheet, ViewStyle } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, ViewStyle } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Header({
     children,
@@ -11,15 +11,12 @@ export default function Header({
     style?: ViewStyle;
     containerStyle?: ViewStyle;
 }) {
+    const insets = useSafeAreaInsets()
     return (
-        <SafeAreaView style={[styles.container, containerStyle]}>
+        <View style={[{ paddingTop: insets.top, paddingBottom: 10 }, containerStyle]}>
             <HStack style={style}>{children}</HStack>
-        </SafeAreaView>
+        </View>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: 20,
-    },
-});
+

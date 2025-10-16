@@ -46,6 +46,17 @@ export const textStyles = StyleSheet.create({
         lineHeight: 21,
         letterSpacing: 0,
         textAlignVertical: 'center',
+        textAlign: 'justify',
+    },
+    mini: {
+        fontFamily: 'Inter',
+        fontWeight: '500',
+        fontStyle: 'normal',
+        fontSize: 12,
+        lineHeight: 18,
+        letterSpacing: 0,
+        textAlignVertical: 'center',
+        textAlign: 'justify',
     },
     label: {
         fontSize: 14,

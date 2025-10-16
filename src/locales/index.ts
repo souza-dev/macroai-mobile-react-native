@@ -3,8 +3,12 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 // //English
+import account_en from '../locales/en/account.json';
+import chat_en from '../locales/en/chat.json';
 import common_en from '../locales/en/common.json';
+import dropdown_en from '../locales/en/dropdown.json';
 import login_en from '../locales/en/login.json';
+import macro_en from '../locales/en/macro.json';
 
 // //Spanish
 import common_es from '../locales/es/common.json';
@@ -18,6 +22,10 @@ const resources = {
     en: {
         common: common_en,
         login: login_en,
+        dropdown: dropdown_en,
+        account: account_en,
+        macro: macro_en,
+        chat: chat_en,
     },
     es: {
         common: common_es,

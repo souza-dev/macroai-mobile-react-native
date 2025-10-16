@@ -6,6 +6,7 @@ import TextLink from '@components/custom-ui/TextLink';
 import VStack from '@components/custom-ui/VStack';
 import { Colors } from '@constants/Colors';
 import { useSession } from '@contexts/authContext';
+import { getApp } from '@react-native-firebase/app';
 import { FirebaseAuthTypes, getAuth, getIdToken } from '@react-native-firebase/auth';
 import AppleIcon from 'assets/icons/login-apple-color.svg';
 import GoogleIcon from 'assets/icons/login-google-color.svg';
@@ -25,7 +26,9 @@ export default function SignIn() {
 
     const handleLogin = async (loginMethod: LoginMethod) => {
         await loginMethod();
-        const currentUser = getAuth().currentUser;
+        const app = getApp();
+        const auth = getAuth(app);
+        const currentUser = auth.currentUser;
         if (!currentUser) {
             return;
         }

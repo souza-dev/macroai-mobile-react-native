@@ -36,7 +36,7 @@ export default function TabLayout() {
             }}
         >
             <Tabs.Screen
-                name="chatai/index"
+                name="chatai"
                 options={{
                     title: 'ChatAi',
                     tabBarIcon: ({ color, size }) => (
@@ -56,7 +56,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="addcalories/index"
                 options={{
-                    title: 'Account',
+                    title: 'Add calories',
                     tabBarLabel: () => null,
                     tabBarItemStyle: {
                         justifyContent: 'center',

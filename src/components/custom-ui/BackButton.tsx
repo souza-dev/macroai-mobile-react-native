@@ -1,10 +1,10 @@
 import ArrowIcon from '@assets/icons/button-left-arrow.svg';
 import { Colors } from '@constants/Colors';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
 interface BackButtonProps extends TouchableOpacityProps {
-    onPress: () => void;
     size?: number;
     iconSize?: number;
     color?: string;
@@ -17,12 +17,13 @@ const BackButton = ({
     color = Colors.light['primary-500'],
     ...props
 }: BackButtonProps) => {
+    const router = useRouter()
     return (
         <TouchableOpacity
             style={[styles.container, { width: size, height: size, borderRadius: size / 2 }]}
-            onPress={onPress}
+            onPress={() => router.back()}
             accessibilityRole="button"
-            accessibilityLabel="Voltar"
+            accessibilityLabel="Back"
             {...props}
         >
             <ArrowIcon height={iconSize} width={iconSize} color={color} />

@@ -60,7 +60,7 @@ export default function ButtonGroup({ direction = 'column', children, style, isA
         }
 
         return React.cloneElement(element, {
-            style: [element.props.style, direction === 'row' ? { flex: 1 } : undefined, borderRadiusStyle],
+            style: [direction === 'row' ? { flex: 1 } : undefined, borderRadiusStyle, element.props.style],
         });
     });
 
