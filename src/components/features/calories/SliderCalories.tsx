@@ -4,19 +4,21 @@ import FatsIcon from '@assets/icons/macro-fats.svg';
 import PenIcon from '@assets/icons/macro-pen.svg';
 import ProteinIcon from '@assets/icons/macro-protein.svg';
 import Input from '@components/custom-ui/Input';
+import InfoHeader from '@components/features/calories/InfoHeader';
 import { Colors } from '@constants/Colors';
 import { dietData } from '@constants/dropdowndata';
 import { textStyles } from '@styles/textStyles';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
-import Body from './Body';
-import Button from './Button';
-import Heading from './Heading';
-import HStack from './HStack';
-import LevelBar from './LevelBar';
-import Select from './Select';
-import VStack from './VStack';
+import Body from '../../custom-ui/Body';
+import Button from '../../custom-ui/Button';
+import Heading from '../../custom-ui/Heading';
+import HStack from '../../custom-ui/HStack';
+import LevelBar from '../../custom-ui/LevelBar';
+import Select from '../../custom-ui/Select';
+import VStack from '../../custom-ui/VStack';
 
 interface ValueTotal {
     value: number;
@@ -26,16 +28,19 @@ interface ValueTotal {
 type Macros = Record<'protein' | 'carbs' | 'fats', ValueTotal>;
 
 type CardData =
-    | { type: 'calories'; value: ValueTotal }
-    | { type: 'macros'; value: Macros }
-    | { type: 'score'; value: number }
-    | { type: 'exercise'; value: number };
+    | { type: 'calories'; value: ValueTotal; onPress?: () => void }
+    | { type: 'macros'; value: Macros; onPress?: () => void }
+    | { type: 'score'; value: string; explain: string; onPress?: () => void; onChange: (value: string) => void }
+    | { type: 'exercise'; value: number; onPress?: () => void; onPressAddExercise: () => void };
 
 interface SliderCaloriesProps {
     data: CardData[];
+    onPressInfo?: (type: CardData['type']) => void;
+    onPressAddExercise?: () => void;
 }
 
-const SliderCalories = ({ data }: SliderCaloriesProps) => {
+const SliderCalories = ({ data, onPressInfo, onPressAddExercise }: SliderCaloriesProps) => {
+    const { t } = useTranslation('calories');
     const { width } = useWindowDimensions();
     const ref = React.useRef<ICarouselInstance>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -55,37 +60,32 @@ const SliderCalories = ({ data }: SliderCaloriesProps) => {
                 <Carousel
                     ref={ref}
                     width={width}
-                    loop={true}
+                    loop
                     data={data}
-                    containerStyle={{ width: width, paddingVertical: 20 }}
+                    containerStyle={{ width, paddingVertical: 20 }}
                     renderItem={({ item }) => {
                         switch (item.type) {
                             case 'calories': {
                                 const { value, total } = item.value;
                                 return (
                                     <VStack spacing={10} style={[styles.card]}>
-                                        <Heading style={textStyles.subtitle} color={Colors.light['primary-500']}>
-                                            {'Calories'}
-                                        </Heading>
+                                        <InfoHeader title="Calories" onPress={item.onPress} />
                                         <Heading>{`${value} cal.`}</Heading>
-                                        <VStack spacing={5}>
+                                        <VStack style={{ height: 10 }}>
                                             <LevelBar value={value} max={total} />
-                                            <HStack style={{ justifyContent: 'space-between' }}>
-                                                <Body style={textStyles.text}>0</Body>
-                                                <Body style={textStyles.text}>{total}</Body>
-                                            </HStack>
                                         </VStack>
+                                        <HStack style={{ justifyContent: 'space-between' }}>
+                                            <Body style={textStyles.text}>0</Body>
+                                            <Body style={textStyles.text}>{total}</Body>
+                                        </HStack>
                                     </VStack>
                                 );
                             }
                             case 'macros': {
                                 const { protein, carbs, fats } = item.value;
-
                                 return (
                                     <VStack spacing={10} style={[styles.card]}>
-                                        <Heading style={textStyles.subtitle} color={Colors.light['primary-500']}>
-                                            {'Macros'}
-                                        </Heading>
+                                        <InfoHeader title="Macros" onPress={item.onPress} />
                                         <VStack spacing={5}>
                                             <HStack spacing={5} style={{ justifyContent: 'flex-end' }}>
                                                 <HStack spacing={5} style={{ flex: 1 }}>
@@ -94,6 +94,7 @@ const SliderCalories = ({ data }: SliderCaloriesProps) => {
                                                 </HStack>
                                                 <LevelBar value={protein.value} max={protein.total} />
                                             </HStack>
+
                                             <HStack spacing={5} style={{ justifyContent: 'flex-end' }}>
                                                 <HStack spacing={5} style={{ flex: 1 }}>
                                                     <CarbsIcon width={16} height={16} color={Colors.light.black} />
@@ -101,6 +102,7 @@ const SliderCalories = ({ data }: SliderCaloriesProps) => {
                                                 </HStack>
                                                 <LevelBar value={carbs.value} max={carbs.total} fillColor="#FF3C3F" />
                                             </HStack>
+
                                             <HStack spacing={5} style={{ justifyContent: 'flex-end' }}>
                                                 <HStack spacing={5} style={{ flex: 1 }}>
                                                     <FatsIcon width={16} height={16} color={Colors.light.black} />
@@ -115,30 +117,35 @@ const SliderCalories = ({ data }: SliderCaloriesProps) => {
                             case 'score':
                                 return (
                                     <VStack spacing={10} style={[styles.card, { width: 358 }]}>
-                                        <Heading style={textStyles.subtitle} color={Colors.light['primary-500']}>
-                                            {'Ai Diet Score'}
-                                        </Heading>
-                                        <HStack spacing={5}>
+                                        <InfoHeader title="Ai Diet Score" onPress={item.onPress} />
+                                        <HStack spacing={10}>
                                             <VStack style={{ flex: 1 }} spacing={10}>
                                                 <Heading center>{`${item.value} pt.`}</Heading>
-                                                <LevelBar value={12500} max={25000} width={138} />
+                                                <VStack style={{ height: 10 }}>
+                                                    <LevelBar value={Number(item.value)} max={10} />
+                                                </VStack>
                                                 <HStack style={{ justifyContent: 'space-between' }}>
-                                                    <Body style={textStyles.text}>Bad</Body>
-                                                    <Body style={textStyles.text}>Good</Body>
+                                                    <Body style={textStyles.text}>{t('bad')}</Body>
+                                                    <Body style={textStyles.text}>{t('good')}</Body>
                                                 </HStack>
                                             </VStack>
-                                            <VStack style={{ flex: 1 }}>
-                                                <Select data={dietData} />
+                                            <VStack
+                                                style={{
+                                                    flex: 1,
+                                                }}
+                                            >
+                                                <Select data={dietData} onChange={item.onChange} />
                                             </VStack>
                                         </HStack>
                                     </VStack>
                                 );
                             case 'exercise':
                                 return (
-                                    <VStack spacing={10} style={[styles.card, { width: 326 }]}>
-                                        <Heading style={textStyles.subtitle} color={Colors.light['primary-500']}>
-                                            {'Substract calories burned from exercise'}
-                                        </Heading>
+                                    <VStack spacing={10} style={[styles.card]}>
+                                        <InfoHeader
+                                            title="Substract calories burned from exercise"
+                                            onPress={item.onPress}
+                                        />
                                         <HStack spacing={10}>
                                             <Input
                                                 placeholder="000"
@@ -154,6 +161,7 @@ const SliderCalories = ({ data }: SliderCaloriesProps) => {
                                                 title="Add Exercise"
                                                 textStyle={{ color: Colors.light.white }}
                                                 iconRight={() => <AddExerciseIcon color={Colors.light.white} />}
+                                                onPress={onPressAddExercise}
                                             />
                                         </HStack>
                                     </VStack>
@@ -161,12 +169,10 @@ const SliderCalories = ({ data }: SliderCaloriesProps) => {
                         }
                     }}
                     onSnapToItem={(index) => setCurrentIndex(index)}
-                    // snapEnabled={false}
-                    // pagingEnabled={false}
                     autoPlay={false}
-                    autoPlayInterval={2000}
                 />
             </View>
+
             <View style={styles.dotsContainer}>
                 {data.map((_, index) => (
                     <View key={index} style={[styles.dot, currentIndex === index && styles.activeDot]} />
@@ -209,6 +215,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
     },
     activeDot: {
-        backgroundColor: Colors.light['primary-500'], // Cor do ponto ativo
+        backgroundColor: Colors.light['primary-500'],
     },
 });

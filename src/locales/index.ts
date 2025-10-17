@@ -4,6 +4,7 @@ import { initReactI18next } from 'react-i18next';
 
 // //English
 import account_en from '../locales/en/account.json';
+import calories_en from '../locales/en/calories.json';
 import chat_en from '../locales/en/chat.json';
 import common_en from '../locales/en/common.json';
 import dropdown_en from '../locales/en/dropdown.json';
@@ -26,6 +27,7 @@ const resources = {
         account: account_en,
         macro: macro_en,
         chat: chat_en,
+        calories: calories_en,
     },
     es: {
         common: common_es,

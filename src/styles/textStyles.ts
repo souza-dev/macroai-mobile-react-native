@@ -1,3 +1,4 @@
+import { Colors } from '@constants/Colors';
 import { StyleSheet } from 'react-native';
 
 export const textStyles = StyleSheet.create({
@@ -10,7 +11,7 @@ export const textStyles = StyleSheet.create({
         letterSpacing: 0,
         textAlign: 'center',
         textAlignVertical: 'center',
-        color: 'green',
+        color: Colors.light.black,
     },
     subtitle: {
         fontFamily: 'Inter',
@@ -46,7 +47,7 @@ export const textStyles = StyleSheet.create({
         lineHeight: 21,
         letterSpacing: 0,
         textAlignVertical: 'center',
-        textAlign: 'justify',
+        textAlign: 'left',
     },
     mini: {
         fontFamily: 'Inter',

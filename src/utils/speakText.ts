@@ -5,9 +5,8 @@ export async function speakText(text: string) {
     if (!text) return;
     const locale = Localization.getLocales()[0]?.languageCode || 'en';
 
-    console.log('locale:', locale);
     const voices = await Speech.getAvailableVoicesAsync();
-    console.log('voices:', voices);
+
     const matchedVoice = voices.find(
         (v) =>
             v.language?.toLowerCase().startsWith(locale.toLowerCase().split('-')[0]) ||

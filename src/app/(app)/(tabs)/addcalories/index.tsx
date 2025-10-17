@@ -1,12 +1,13 @@
 import SendIcon from '@assets/icons/chat-send.svg';
 import DrawerButton from '@components/custom-ui/DrawerButton';
 import Header from '@components/custom-ui/Header';
+import InfoModal from '@components/custom-ui/InfoModal';
 import Input from '@components/custom-ui/Input';
+import LoadingChatMessage from '@components/custom-ui/LoadingChatMessage';
 import Screen from '@components/custom-ui/Screen';
-import SliderCalories from '@components/custom-ui/SliderCalories';
 import AddCaloriesModal from '@components/features/calories/AddCaloriesModal';
 import CardFood from '@components/features/calories/CardFood';
-import Thinking from '@components/features/chats/Thinking';
+import SliderCalories from '@components/features/calories/SliderCalories';
 import { Colors } from '@constants/Colors';
 import useAudioRecorder from '@hooks/useAudioRecorder';
 import useChatCalories from '@hooks/useChatCalories';
@@ -21,7 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { Alert, FlatList, Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 const AddCaloriestScreen = () => {
-    const { t } = useTranslation('chat');
+    const { t } = useTranslation('calories');
     const ref = useRef<FlatList>(null);
     const [inputText, setInputText] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
@@ -31,13 +32,13 @@ const AddCaloriestScreen = () => {
     const user = auth.currentUser;
     const [muted, setMuted] = useState(true);
     const [state, setState] = useState<'text' | 'voice' | 'photo'>('text');
+    const [caloriesModalVisible, setCaloriesModalVisible] = useState(false);
+    const [macrosModalVisible, setMacrosModalVisible] = useState(false);
 
-    const {
-        macros,
-        loading: loadingMessagesResponse,
-        sendMacros,
-        deleteMacros,
-    } = useChatCalories(user as FirebaseAuthTypes.User);
+    const [scoreModalVisible, setScoreModalVisible] = useState(false);
+
+    const { macros, loadingResponse, totals, score, loadingScore, sendMacros, deleteMacros, handleSetDiet } =
+        useChatCalories(user as FirebaseAuthTypes.User);
 
     const { startAudioRecording, stopAudioRecording, recordingProgress, isAudioRecording } = useAudioRecorder();
     const { transcribe, loading: loadingAudioTranscribe } = useTranscribeAudio();
@@ -121,6 +122,30 @@ const AddCaloriestScreen = () => {
 
     return (
         <Screen>
+            <InfoModal
+                visible={caloriesModalVisible}
+                title={t('modal_calories_title')}
+                body={t('modal_calories_body')}
+                buttonTitle={t('modal_button_title')}
+                buttonOnPress={() => setCaloriesModalVisible(false)}
+                onRequestClose={() => setCaloriesModalVisible(false)}
+            />
+            <InfoModal
+                visible={macrosModalVisible}
+                title={t('modal_macros_title')}
+                body={t('modal_macros_body')}
+                buttonTitle={t('modal_button_title')}
+                buttonOnPress={() => setMacrosModalVisible(false)}
+                onRequestClose={() => setMacrosModalVisible(false)}
+            />
+            <InfoModal
+                visible={scoreModalVisible}
+                title={t('modal_score_title')}
+                body={score.explain === '' ? t('modal_score_body') : score.explain}
+                buttonTitle="Ok, entendi"
+                buttonOnPress={() => setScoreModalVisible(false)}
+                onRequestClose={() => setScoreModalVisible(false)}
+            />
             <AddCaloriesModal
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(false)}
@@ -129,6 +154,7 @@ const AddCaloriestScreen = () => {
                     setModalVisible(false);
                 }}
             />
+
             <Header>
                 <DrawerButton />
                 <View style={styles.flex}>
@@ -142,19 +168,30 @@ const AddCaloriestScreen = () => {
             </Header>
             <SliderCalories
                 data={[
-                    { type: 'calories', value: { value: 1800, total: 2500 } },
+                    {
+                        type: 'calories',
+                        value: { value: totals.calories, total: 2500 },
+                        onPress: () => setCaloriesModalVisible(true),
+                    },
                     {
                         type: 'macros',
                         value: {
-                            protein: { value: 110, total: 150 },
-                            carbs: { value: 200, total: 300 },
-                            fats: { value: 60, total: 80 },
+                            protein: { value: totals.protein, total: 150 },
+                            carbs: { value: totals.carbs, total: 300 },
+                            fats: { value: totals.fats, total: 80 },
                         },
+                        onPress: () => setMacrosModalVisible(true),
                     },
-                    { type: 'score', value: 5 },
-                    { type: 'exercise', value: 200 },
+                    {
+                        type: 'score',
+                        value: score.score,
+                        explain: '',
+                        onPress: () => setScoreModalVisible(true),
+                        onChange: (item) => handleSetDiet(item),
+                    },
+                    { type: 'exercise', value: 200, onPress: () => console.log('Info exercise pressed') },
                 ]}
-            />{' '}
+            />
             <View style={styles.chat}>
                 <FlatList
                     ref={ref}
@@ -170,7 +207,8 @@ const AddCaloriestScreen = () => {
                     contentContainerStyle={{ flexGrow: 1 }}
                 />
             </View>
-            <Thinking loading={loadingMessagesResponse} />
+            <LoadingChatMessage message={'Thinking...'} loading={loadingResponse} />
+            <LoadingChatMessage message={'Calculating score'} loading={loadingScore} />
             <Input
                 value={inputText}
                 onChangeText={setInputText}

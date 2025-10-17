@@ -1,8 +1,6 @@
 export default async function getScore(body: object) {
     const URL = 'https://api.aidietpro.com/v2/getScore.php';
 
-    console.log('msg pra score', JSON.stringify(body));
-
     const response = await fetch(URL, {
         method: 'POST',
         headers: {

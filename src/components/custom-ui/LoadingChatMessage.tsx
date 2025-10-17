@@ -9,7 +9,7 @@ interface ThinkingProps {
     loading: boolean;
 }
 
-const Thinking = React.memo(({ message, loading }: ThinkingProps) => {
+const LoadingChatMessage = React.memo(({ message, loading }: ThinkingProps) => {
     if (!loading) return null;
 
     return (
@@ -28,7 +28,7 @@ const Thinking = React.memo(({ message, loading }: ThinkingProps) => {
     );
 });
 
-Thinking.displayName = 'Thinking';
+LoadingChatMessage.displayName = 'LoadingChatMessage';
 
 const styles = StyleSheet.create({
     container: {
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Thinking;
+export default LoadingChatMessage;
