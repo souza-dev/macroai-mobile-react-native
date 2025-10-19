@@ -8,41 +8,40 @@ import Heading from '../../custom-ui/Heading';
 import HStack from '../../custom-ui/HStack';
 import VStack from '../../custom-ui/VStack';
 
-interface CardFoodProps {
+interface CardExerciseProps {
     id?: string | null;
     title: string;
     calories: string;
-    carbs: string;
-    proteins: string;
-    fats: string;
     onPressDelete: (id: string) => void;
 }
 
-const CardFood = ({ id, title, calories, carbs, proteins, fats, onPressDelete }: CardFoodProps) => {
+const CardExercise = ({ id, title, calories, onPressDelete }: CardExerciseProps) => {
     return (
         <HStack style={styles.container} spacing={5}>
             <VStack spacing={15} style={styles.label}>
-                <Heading style={textStyles.subtitle} color={Colors.light.white}>
-                    {title}
+                <Heading style={textStyles.subtitle} color={Colors.light.red}>
+                    {'Exercise'}
                 </Heading>
-                <Body style={textStyles.text} color={Colors.light.white}>
-                    {`${calories} calories / ${carbs} carbs / ${proteins} proteins / ${fats} fats`}
+                <Body style={textStyles.text} color={Colors.light.red}>
+                    {`You burned ${calories} cal today through exercise`}
                 </Body>
             </VStack>
             <VStack spacing={15} style={styles.delete}>
                 <TouchableOpacity onPress={() => onPressDelete(id as string)}>
-                    <DeleteIcon height={26} width={26} color={Colors.light['primary-400']} />
+                    <DeleteIcon height={26} width={26} color={Colors.light.red} />
                 </TouchableOpacity>
             </VStack>
         </HStack>
     );
 };
 
-export default React.memo(CardFood);
+export default React.memo(CardExercise);
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Colors.light['primary-500'],
+        backgroundColor: Colors.light.white,
+        borderWidth: 1,
+        borderColor: Colors.light.red,
         paddingVertical: 15,
         paddingHorizontal: 20,
         borderRadius: 10,

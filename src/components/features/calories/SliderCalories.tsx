@@ -30,16 +30,21 @@ type Macros = Record<'protein' | 'carbs' | 'fats', ValueTotal>;
 type CardData =
     | { type: 'calories'; value: ValueTotal; onPress?: () => void }
     | { type: 'macros'; value: Macros; onPress?: () => void }
-    | { type: 'score'; value: string; explain: string; onPress?: () => void; onChange: (value: string) => void }
-    | { type: 'exercise'; value: number; onPress?: () => void; onPressAddExercise: () => void };
+    | {
+          type: 'score';
+          value: string;
+          explain: string;
+          onPress?: () => void;
+          diet: string;
+          onChange: (value: string) => void;
+      }
+    | { type: 'exercise'; value: number; onPress?: () => void; onPressAddExercise: (value: number) => void };
 
 interface SliderCaloriesProps {
     data: CardData[];
-    onPressInfo?: (type: CardData['type']) => void;
-    onPressAddExercise?: () => void;
 }
 
-const SliderCalories = ({ data, onPressInfo, onPressAddExercise }: SliderCaloriesProps) => {
+const SliderCalories = ({ data }: SliderCaloriesProps) => {
     const { t } = useTranslation('calories');
     const { width } = useWindowDimensions();
     const ref = React.useRef<ICarouselInstance>(null);
@@ -134,34 +139,47 @@ const SliderCalories = ({ data, onPressInfo, onPressAddExercise }: SliderCalorie
                                                     flex: 1,
                                                 }}
                                             >
-                                                <Select data={dietData} onChange={item.onChange} />
+                                                <Select data={dietData} value={item.diet} onChange={item.onChange} />
                                             </VStack>
                                         </HStack>
                                     </VStack>
                                 );
                             case 'exercise':
+                                const [exerciseValue, setExerciseValue] = useState('');
+
                                 return (
                                     <VStack spacing={10} style={[styles.card]}>
                                         <InfoHeader
                                             title="Substract calories burned from exercise"
                                             onPress={item.onPress}
                                         />
-                                        <HStack spacing={10}>
+                                        <HStack spacing={20}>
                                             <Input
                                                 placeholder="000"
+                                                value={exerciseValue}
+                                                onChangeText={setExerciseValue}
+                                                keyboardType="numeric"
                                                 iconLeft={() => (
                                                     <PenIcon width={20} color={Colors.light.gray} height={20} />
                                                 )}
                                                 containerStyle={{
-                                                    width: 120,
+                                                    flex: 1,
                                                     backgroundColor: Colors.light.background,
                                                 }}
+                                                style={{ textAlign: 'center' }}
                                             />
                                             <Button
                                                 title="Add Exercise"
                                                 textStyle={{ color: Colors.light.white }}
                                                 iconRight={() => <AddExerciseIcon color={Colors.light.white} />}
-                                                onPress={onPressAddExercise}
+                                                onPress={() => {
+                                                    const value = Number(exerciseValue);
+                                                    if (!isNaN(value) && value > 0) {
+                                                        item.onPressAddExercise(value);
+                                                        setExerciseValue(''); // limpa o input depois
+                                                    }
+                                                }}
+                                                style={{ flex: 1 }}
                                             />
                                         </HStack>
                                     </VStack>

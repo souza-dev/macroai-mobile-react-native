@@ -13,5 +13,6 @@ export const Colors = {
         background: '#F4F4F4',
         gray: '#5C5C5C',
         error: '#FF3B3F',
+        red: '#FF3B3F',
     },
 };

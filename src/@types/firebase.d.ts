@@ -2,19 +2,30 @@ export {};
 
 declare global {
     interface FirebaseDatabaseMessage extends OpenAiMessage {
-        id: string;
+        id?: string | null;
         createdAt?: string;
         answerToId?: string;
         timestamp?: string | number;
         metadata?: Record<string, any>;
     }
-    interface FirebaseDatabaseMacros extends Partial<OpenAiMessage> {
-        id: string;
+
+    interface FirebaseDatabaseFoods extends Partial<OpenAiMessage> {
+        id?: string | null;
         createdAt: string;
         timestamp?: string | number;
         macros?: Record<string, any>;
-        answerToId?: string;
-        type?: 'text' | 'voice' | 'photo';
+        answerToId?: string | null;
+        type?: 'text' | 'voice' | 'photo' | 'exercise';
     }
+
     type ChatType = 'fitness' | 'macros' | 'nutrition' | 'recipes' | 'calories';
+
+    interface FirebaseDatabaseExercises extends Partial<OpenAiMessage> {
+        id?: string | null;
+        createdAt: string;
+        timestamp?: string | number;
+        calories?: number | string;
+        answerToId?: string | null;
+        description?: string;
+    }
 }

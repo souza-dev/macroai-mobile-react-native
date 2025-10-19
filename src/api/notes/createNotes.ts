@@ -1,5 +1,5 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { getDatabase, ref, set } from '@react-native-firebase/database';
+import { getDatabase, push, ref, set } from '@react-native-firebase/database';
 
 export async function createNote(
     user: FirebaseAuthTypes.User,
@@ -7,10 +7,17 @@ export async function createNote(
     type?: 'fitness' | 'macros' | 'nutrition' | 'recipes'
 ) {
     if (user === null || data === null || type === null) {
-        throw new Error('Missing parameter');
+        throw new Error('missing-parameter');
     }
 
     const db = getDatabase();
-    const noteRef = ref(db, `/notes/${user.uid}/${type}/${data.id}`);
-    await set(noteRef, data);
+    const notesRef = ref(db, `/notes/${user.uid}/${type}`);
+    const newNoteRef = push(notesRef);
+    const newData = {
+        ...data,
+        id: newNoteRef.key, // salva o id no objeto
+        timestamp: Date.now(), // opcional, mas útil pra ordenação
+    };
+    await set(newNoteRef, newData);
+    return newData;
 }

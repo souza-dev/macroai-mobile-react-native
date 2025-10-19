@@ -6,11 +6,12 @@ import Input from '@components/custom-ui/Input';
 import LoadingChatMessage from '@components/custom-ui/LoadingChatMessage';
 import Screen from '@components/custom-ui/Screen';
 import AddCaloriesModal from '@components/features/calories/AddCaloriesModal';
+import CardExercise from '@components/features/calories/CardExercise';
 import CardFood from '@components/features/calories/CardFood';
 import SliderCalories from '@components/features/calories/SliderCalories';
 import { Colors } from '@constants/Colors';
 import useAudioRecorder from '@hooks/useAudioRecorder';
-import useChatCalories from '@hooks/useChatCalories';
+import useChatFoods from '@hooks/useChatFoods';
 import useTranscribeAudio from '@hooks/useTranscribeAudio';
 import { getApp } from '@react-native-firebase/app';
 import { FirebaseAuthTypes, getAuth } from '@react-native-firebase/auth';
@@ -32,13 +33,24 @@ const AddCaloriestScreen = () => {
     const user = auth.currentUser;
     const [muted, setMuted] = useState(true);
     const [state, setState] = useState<'text' | 'voice' | 'photo'>('text');
+
     const [caloriesModalVisible, setCaloriesModalVisible] = useState(false);
     const [macrosModalVisible, setMacrosModalVisible] = useState(false);
-
     const [scoreModalVisible, setScoreModalVisible] = useState(false);
+    const [exerciseModalVisible, setExerciseModalVisible] = useState(false);
 
-    const { macros, loadingResponse, totals, score, loadingScore, sendMacros, deleteMacros, handleSetDiet } =
-        useChatCalories(user as FirebaseAuthTypes.User);
+    const {
+        foods,
+        loadingResponse,
+        totals,
+        score,
+        loadingScore,
+        sendFoods,
+        removeFood,
+        diet,
+        handleSetDiet,
+        addExercise,
+    } = useChatFoods(user as FirebaseAuthTypes.User);
 
     const { startAudioRecording, stopAudioRecording, recordingProgress, isAudioRecording } = useAudioRecorder();
     const { transcribe, loading: loadingAudioTranscribe } = useTranscribeAudio();
@@ -62,18 +74,18 @@ const AddCaloriestScreen = () => {
             if (!content.trim() || !user) return;
 
             try {
-                const messageObj = {
-                    id: Date.now().toString(),
-                    role: 'user',
-                    content,
-                    createdAt: new Date().toUTCString(),
-                };
-                const res = await sendMacros(content, 'text');
+                await sendFoods(content, 'text');
             } catch (e: any) {
-                Alert.alert('Error', e.message);
+                if (e.message === 'food-not-recognized') {
+                    Alert.alert(t('warning'), t('food_not_recognized'));
+                } else if (e.message === 'diet-not-selected') {
+                    Alert.alert(t('warning'), t('diet_not_selected'));
+                } else {
+                    Alert.alert(t('warning'), e.message);
+                }
             }
         },
-        [user, sendMacros, muted]
+        [user, sendFoods, muted]
     );
 
     const onSend = useCallback(async () => {
@@ -96,17 +108,35 @@ const AddCaloriestScreen = () => {
 
     const onPressDeleteMessage = async (id: string) => {
         try {
-            await deleteMacros(id);
-        } catch {
-            Alert.alert(t('error.title'), t('error.delete_chat'));
+            await removeFood(id);
+        } catch (e: any) {
+            if (e.message !== 'diet-not-selected') Alert.alert(t('warning'), t('error_delete'));
         }
     };
 
-    const renderItem = ({ item }: { item: FirebaseDatabaseMacros }) => {
+    const onPressAddExercise = async (calories: number) => {
+        try {
+            await addExercise(calories);
+        } catch (e: any) {
+            Alert.alert(t('warning'), t('error_delete'));
+        }
+    };
+
+    const renderItem = ({ item }: { item: FirebaseDatabaseFoods }) => {
         if (item.role === 'user' || item.macros === undefined) {
             return null;
         }
 
+        if (item.type === 'exercise') {
+            return (
+                <CardExercise
+                    id={item.id}
+                    title={item.macros.foodName}
+                    calories={item.macros.calories}
+                    onPressDelete={onPressDeleteMessage}
+                />
+            );
+        }
         return (
             <CardFood
                 id={item.id}
@@ -142,9 +172,17 @@ const AddCaloriestScreen = () => {
                 visible={scoreModalVisible}
                 title={t('modal_score_title')}
                 body={score.explain === '' ? t('modal_score_body') : score.explain}
-                buttonTitle="Ok, entendi"
+                buttonTitle={t('modal_button_title')}
                 buttonOnPress={() => setScoreModalVisible(false)}
                 onRequestClose={() => setScoreModalVisible(false)}
+            />
+            <InfoModal
+                visible={exerciseModalVisible}
+                title={t('modal_exercise_title')}
+                body={t('modal_exercise_body')}
+                buttonTitle={t('modal_button_title')}
+                buttonOnPress={() => setExerciseModalVisible(false)}
+                onRequestClose={() => setExerciseModalVisible(false)}
             />
             <AddCaloriesModal
                 visible={modalVisible}
@@ -186,17 +224,23 @@ const AddCaloriestScreen = () => {
                         type: 'score',
                         value: score.score,
                         explain: '',
+                        diet: diet as string,
                         onPress: () => setScoreModalVisible(true),
                         onChange: (item) => handleSetDiet(item),
                     },
-                    { type: 'exercise', value: 200, onPress: () => console.log('Info exercise pressed') },
+                    {
+                        type: 'exercise',
+                        value: 200,
+                        onPress: () => setExerciseModalVisible(true),
+                        onPressAddExercise: (value: number) => onPressAddExercise(value),
+                    },
                 ]}
             />
             <View style={styles.chat}>
                 <FlatList
                     ref={ref}
-                    keyExtractor={(item) => item.id}
-                    data={macros}
+                    keyExtractor={(item, index) => item.id ?? index.toString()}
+                    data={foods}
                     renderItem={renderItem}
                     inverted
                     keyboardShouldPersistTaps="always"
@@ -207,8 +251,8 @@ const AddCaloriestScreen = () => {
                     contentContainerStyle={{ flexGrow: 1 }}
                 />
             </View>
-            <LoadingChatMessage message={'Thinking...'} loading={loadingResponse} />
-            <LoadingChatMessage message={'Calculating score'} loading={loadingScore} />
+            <LoadingChatMessage message={t('thinking')} loading={loadingResponse} />
+            <LoadingChatMessage message={t('calculating_score')} loading={loadingScore} />
             <Input
                 value={inputText}
                 onChangeText={setInputText}
@@ -222,7 +266,7 @@ const AddCaloriestScreen = () => {
                     </TouchableOpacity>
                 }
                 returnKeyType="send"
-                editable={!isAudioRecording && !loadingAudioTranscribe}
+                editable={!(loadingResponse || loadingScore)}
                 selectTextOnFocus={!isAudioRecording && !loadingAudioTranscribe}
             />
         </Screen>

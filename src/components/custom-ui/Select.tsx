@@ -11,6 +11,7 @@ interface SelectProps {
         value: string;
         count?: number;
     }[];
+    value?: string;
     onChange: (value: string) => void;
     style?: ViewStyle;
 }
@@ -25,10 +26,9 @@ export const mockData = [
     { label: 'Item 8', value: '8' },
 ];
 
-const Select = ({ style, data = mockData, onChange = (item: any) => console.log(item) }: SelectProps) => {
+const Select = ({ style, data = mockData, value, onChange = (item: any) => console.log(item) }: SelectProps) => {
     const [isFocus, setIsFocus] = useState(false);
     const { t } = useTranslation('dropdown');
-    const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
 
     const translatedData = data.map((item: any) => ({
         ...item,
@@ -41,10 +41,9 @@ const Select = ({ style, data = mockData, onChange = (item: any) => console.log(
     return (
         <Dropdown
             data={translatedData}
-            value={selectedValue}
+            value={value}
             onChange={(item) => {
                 onChange(item.value);
-                setSelectedValue(item.value);
                 setIsFocus(false);
             }}
             labelField="label"
