@@ -1,0 +1,23 @@
+{
+    "modal_calories_title": "Calories",
+    "modal_calories_body": "Here is your daily or weekly calorie counter display, as set on your profile page. You can modify the maximum limit anytime you wish.",
+    "modal_button_title": "Ok, I got it",
+    "modal_macros_title": "Macros",
+    "modal_macros_body": "Here you can see your daily macros in relation to the maximum values set in your profile.",
+    "modal_score_title": "Diet Score",
+    "modal_score_body": "Unsure when to eat on this diet? Tap ChatAI and get a personalized eating schedule from the AI tailored to your plan.",
+    "modal_exercise_title": "Exercise",
+    "modal_exercise_body": "You can enter the calories you burned during exercise, and they will be subtracted from your total calories consumed.",
+
+    "good": "Good",
+    "bad": "Bad",
+    "type": "Type a message",
+    "warning": "Warning!",
+    "food_not_recognized": "Food not recognized. Please try again!",
+    "diet_not_selected": "Please select a diet plan to calculate your score. With a diet plan, your score can help you reach your goals more effectively.",
+    "error_delete": "Failed to delete the message. Please try again.",
+    "thinking": "Thinking...",
+    "calculating_score": "Calculating score",
+    "photo_uploading": "Uploading photo...",
+    "analyzing_photo": "Analyzing your photo..."
+}

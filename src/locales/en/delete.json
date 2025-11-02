@@ -1,0 +1,20 @@
+{
+    "title": "Are you sure you want to delete this account",
+    "body": "If you delete this account, all saved content will be lost and cannot be recovered.",
+    "yes": "Yes, delete!",
+    "cancel": "Cancel",
+    "deleting_your_calories_chat": "Removing your calories chat.",
+    "deleting_your_calories_count": "Removing your calories count.",
+    "deleting_your_chat_Ai_fitness_plans": "Removing your chat Ai (fitness plans)",
+    "deleting_your_chat_Ai_macros_setup_help": " Removingyour chat Ai (macros setup help)",
+    "deleting_your_chat_Ai_information_about_nutrition": "Removing your chat Ai (information about nutrition)",
+    "deleting_your_chat_Ai_recipes": "Removing your chat Ai (recipes)",
+    "deleting_your_notes_fitness_plans": "Removing your notes (fitness plans)",
+    "deleting_your_notes_macros_setup_help": "Removing your notes (macros setup help)",
+    "deleting_your_notes_information_about_nutrition": "Removing your notes (information about nutrition)",
+    "deleting_your_notes_recipes": "Removing your notes (recipes)",
+    "deleting_your_profile": "Removing your profile.",
+    "delete_account": "Delete account",
+    "warning": "Warning!",
+    "are_you_sure_you_want": "Are you sure you want to permanently delete your account?"
+}

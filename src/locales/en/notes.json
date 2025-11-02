@@ -1,0 +1,17 @@
+{
+    "title": "My Notes",
+    "body": "All the relevant information you selected above is stored here.",
+    "button_all_notes": "All notes",
+    "button_info": "Nutritional Information",
+    "button_recipes": "Recipes for Meals",
+    "button_exercise": "Workout Routines",
+    "button_macros": "Macros Setup Help",
+    "list_title": "Here you can check out The answers from the A.I. that you saved",
+    "all_notes_title": "All Notes",
+    "recipes_title": "Recipes",
+    "exercise_tile": "Exercises",
+    "nutrition_title": "Nutrition",
+    "macros_title": "Macros",
+    "allnotes_title": "All notes",
+    "empty": "No saved notes yet. Any notes you save from the {{title}} chat will appear here."
+}

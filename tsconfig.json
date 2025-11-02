@@ -1,0 +1,19 @@
+{
+    "extends": "expo/tsconfig.base",
+    "compilerOptions": {
+        "types": ["jest", "node", "react-native"],
+        "strict": true,
+        "baseUrl": "src",
+        "paths": {
+            "@*": ["./src/*"],
+            "@assets/*": ["assets/*"],
+            "@constants/*": ["constants/*"],
+            "@components/*": ["components/*"],
+            "@hooks/*": ["hooks/*"],
+            "@styles/*": ["styles/*"],
+            "@contexts/*": ["contexts/*"],
+            "@locales/*": ["locales/*"]
+        }
+    },
+    "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "src/__mocks__/expo-router.js"]
+}

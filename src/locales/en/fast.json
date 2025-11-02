@@ -1,0 +1,19 @@
+{
+    "title": "Fast",
+    "body": "Discover the Unlock the benefits of fasting to accelerate your weight loss progress",
+    "stop": "Stop Fasting",
+    "start": "Start Fasting",
+    "alert": "Alert",
+    "set_a_timer": "Set a timer value before start",
+    "end_time": "An alert has been set for {{time}} regarding the end of your fast",
+    "cancel": "Cancel",
+    "start_cronometer": "OK, start chronometer",
+    "error_save": "error_saving_timer",
+    "cancel_timer": "Do you want to cancel the running timer?",
+    "yes": "Yes",
+    "yes_cancel": "Yes, Cancel Timer",
+    "no_keep": "No, Keep Timer",
+    "greather_than_zero": "The timer must be set to a duration greater than zero.",
+    "have_fineshed_fast": "You have finished {{hours}} fast.",
+    "end_fast": "Your fast has ended."
+}

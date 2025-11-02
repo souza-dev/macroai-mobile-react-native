@@ -1,0 +1,9 @@
+{
+    "body": "Your macros have been calculated by the AI.",
+    "panel": "Calories꞉ {{macros.calories}} - Protein꞉ {{macros.protein}} grams Carbs꞉ {{macros.carbs}} grams - Fats꞉ {{macros.fats}}",
+    "calories": "Calories",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fats": "Fats",
+    "button": "Save Results"
+}

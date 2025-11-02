@@ -1,0 +1,48 @@
+{
+    "cli": {
+        "version": ">= 16.24.1",
+        "appVersionSource": "remote",
+        "promptToConfigurePushNotifications": false
+    },
+    "build": {
+        "development": {
+            "developmentClient": true,
+            "distribution": "internal",
+            "android": {
+                "buildType": "apk"
+            },
+            "ios": {
+                "simulator": true
+            }
+        },
+        "preview": {
+            "distribution": "internal",
+            "android": {
+                "buildType": "apk"
+            }
+        },
+        "production": {
+            "autoIncrement": true,
+            "distribution": "store",
+            "android": {
+                "buildType": "app-bundle",
+                "credentialsSource": "local"
+            },
+            "ios": {
+                "simulator": false
+            },
+            "env": {
+                "ANDROID_KEYSTORE_PASSWORD": "g79bLhMVrz6b1Er1",
+                "ANDROID_KEY_PASSWORD": "g79bLhMVrz6b1Er1",
+                "ANDROID_KEY_ALIAS": "aidiet"
+            }
+        }
+    },
+    "submit": {
+        "production": {
+            "android": {
+                "serviceAccountKeyPath": "./credentials/android/dates-58ef0-f4e32c87d251.json"
+            }
+        }
+    }
+}
